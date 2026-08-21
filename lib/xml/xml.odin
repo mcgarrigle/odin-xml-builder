@@ -134,6 +134,7 @@ end_element :: proc(x: ^Builder) {
 		return
 	}
 
+  // TODO: get </close> next to text to cuddle string even in pretty mode
 	if x.pretty {
 		newline(x)
 		write_indent(x)
