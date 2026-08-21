@@ -128,7 +128,6 @@ end_element :: proc(x: ^Builder) {
 	x.indent -= 1
 
 	if x.open_tag {
-		// <foo/>
 		strings.write_string(&x.sb, "/>")
 		x.open_tag = false
 		newline(x)
