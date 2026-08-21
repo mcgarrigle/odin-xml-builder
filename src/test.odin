@@ -41,8 +41,8 @@ main :: proc() {
   xml.start_element(&x, "domain")
   xml.attribute(&x, "type", "kvm")
   xml.element_text(&x, "name", "test")
-  xml.element_attribute_text(&x, "memory", "unit", "KiB","8388608")
-  xml.element_attribute_text(&x, "type", "placement", "static","4")
+  xml.element_attribute_text(&x, "memory", "unit", "KiB", "8388608")
+  xml.element_attribute_text(&x, "type", "placement", "static", "4")
   xml.start_element(&x, "os")
   xml.attribute(&x, "firmware", "efi")
   xml.start_element(&x, "type")
@@ -51,7 +51,28 @@ main :: proc() {
   xml.text(&x, "hvm")
   xml.end_element(&x) // type
   xml.end_element(&x) // os
+  xml.start_element(&x, "features")
+  xml.empty_element(&x, "acpi")
+  xml.empty_element(&x, "apic")
+  xml.start_element(&x, "smm")
+  xml.attribute(&x, "state", "on")
+  xml.end_element(&x) // smm
+  xml.end_element(&x) // features
+  xml.start_element(&x, "devices")
+  xml.start_element(&x, "disk")
+  xml.attribute(&x, "type", "file")
+  xml.attribute(&x, "device", "disk")
+  xml.start_element(&x, "source")
+  xml.attribute(&x, "file", "/var/lib/libvirt/filesystems/test.qcow2")
+  xml.end_element(&x) // source
+  xml.start_element(&x, "target")
+  xml.attribute(&x, "dev", "vda")
+  xml.attribute(&x, "bus", "virtio")
+  xml.end_element(&x) // target
+  xml.end_element(&x) // disk
+  xml.end_element(&x) // devices
   xml.end_element(&x) // domain
+
   fmt.println(xml.to_string(&x))
 
   // -----------------------------------
